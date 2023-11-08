@@ -1,0 +1,14 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="MavenPackageUpdate" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="excludeList">
+        <list>
+          <option value="org.springframework:spring-webmvc" />
+          <option value="org.springframework:spring-tx" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="ThymeleafVariablesResolveInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+  </profile>
+</component>

@@ -18,39 +18,52 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/")
-    public String getIndex(Model model) {
-        model.addAttribute("user", userService.getAllUser());
+    // Получение списка юзеров
+    @GetMapping("/")
+    public String index(Model model) {
+        model.addAttribute("users", userService.getAllUser());
         return "index";
     }
 
-    @GetMapping(value = "/add")
+    // Получение юзера по id
+    @GetMapping("/show")
+    public String show(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("user", userService.getUserById(id));
+        return "show";
+    }
+
+    // Добавление юзера Get
+    @GetMapping("/add")
     public String addUser(Model model) {
         model.addAttribute("user", new User());
         return "add";
     }
 
-    @PostMapping(value = "/add")
-    public String addUserPage(@ModelAttribute User user) {
+    // Добавление юзера Post
+    @PostMapping("/add")
+    public String addUserPage(@ModelAttribute("user") User user) {
         userService.addUser(user);
         return "redirect:/";
     }
 
-    @PostMapping(value = "/delete")
+    // Удаление юзера
+    @PostMapping("/delete")
     public String deleteUser(@RequestParam("id") Long id) {
         userService.removeUser(id);
         return "redirect:/";
     }
 
+    // Изменение юзера Get
     @GetMapping(value = "/edit")
     public String editUser(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
         return "edit";
     }
 
+    // Изменение юзера Post
     @PostMapping(value = "/edit")
-    public String editUserPage(@ModelAttribute User user) {
-        userService.updateUser(user);
+    public String editUserPage(@ModelAttribute("user") User user, @RequestParam("id") Long id) {
+        userService.updateUser(id, user);
         return "redirect:/";
     }
 }

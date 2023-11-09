@@ -14,15 +14,15 @@
             <th>Фамилия</th>
             <th>Возраст</th>
         </tr>
-        <th:block th:each="user : ${user}">
+        <th:block th:each="user : ${users}">
             <tr>
-                <td th:text="${user.id}"></td>
-                <td th:text="${user.name}"></td>
-                <td th:text="${user.lastname}"></td>
-                <td th:text="${user.age}"></td>
+                <td th:text="${user.getId}"></td>
+                <td th:text="${user.getName}"></td>
+                <td th:text="${user.getLastName}"></td>
+                <td th:text="${user.getAge}"></td>
                 <td>
-                    <a th:href="@{/edit(id=${user.id})}" th:text="Изменить"></a>
-                    <form th:action="@{/delete/(id=${user.id})}" th:method="post">
+                    <a th:href="@{/edit(id=${user.getId})}" th:text="Изменить"></a>
+                    <form th:action="@{/delete/(id=${user.getId})}" th:method="post">
                         <button type='submit' name='your_name' value='your_value' class='btn-link'>Удалить</button>
                     </form>
                 </td>
@@ -30,7 +30,6 @@
         </th:block>
     </table>
 </div>
-
 <a href="add">Добавить пользователя</a>
 </body>
 </html>

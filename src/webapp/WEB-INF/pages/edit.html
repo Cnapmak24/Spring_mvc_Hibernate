@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
     <title>Изменить</title>
 </head>
 <body>
@@ -9,8 +10,8 @@
 <form action="#" th:action="@{/edit}" th:object="${user}" th:method="patch">
     <input type="hidden" th:field="*{id}" th:value="*{id}"/>
     <p>Имя: <input type="text" th:field="*{name}" th:value="*{name}" th:charset="utf-8"/></p>
-    <p>Фамилия: <input type="text" th:field="*{lastname}" th:value="*{lastname}"/></p>
-    <p>Возраст: <input type="text" th:field="*{age}" th:value="*{age}" th:charset="utf-8"/></p>
+    <p>Фамилия: <input type="text" th:field="*{lastName}" th:value="*{lastName}" th:charset="utf-8"/></p>
+    <p>Возраст: <input type="text" th:field="*{age}" th:value="*{age}"/></p>
     <p><input type="submit" value="Изменить"/></p>
 </form>
 </body>

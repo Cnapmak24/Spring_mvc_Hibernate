@@ -1,13 +1,15 @@
 package web.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "name")
@@ -19,8 +21,7 @@ public class User {
     @Column(name = "age")
     private int age;
 
-    public User(Long id, String name, String lastName, int age) {
-        this.id = id;
+    public User(String name, String lastName, int age) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;

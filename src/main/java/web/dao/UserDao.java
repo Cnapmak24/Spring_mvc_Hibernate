@@ -7,11 +7,10 @@ public interface UserDao {
 
     List<User> getAllUser();
 
-    User getUserById(Long id);
+    void saveUser(User user);
 
-    void addUser(User user);
+    User getUser(Long id);
 
-    void removeUser(Long id);
+    void deleteUser(Long id);
 
-    void update(Long id, User updateUser);
 }

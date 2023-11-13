@@ -1,13 +1,12 @@
 package web.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -20,8 +19,6 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource("classpath:db.properties")
-@ComponentScan("web")
 public class AppConfig {
 
     private final Environment env;
@@ -33,10 +30,10 @@ public class AppConfig {
     @Bean
     public DataSource DataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName(env.getRequiredProperty("db.driver"));
-        ds.setUrl(env.getRequiredProperty("db.url"));
-        ds.setUsername(env.getRequiredProperty("db.username"));
-        ds.setPassword(env.getRequiredProperty("db.password"));
+        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://localhost:3306/mydbtest");
+        ds.setUsername("root");
+        ds.setPassword("root");
         return ds;
     }
 
@@ -44,18 +41,18 @@ public class AppConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(DataSource());
-        em.setPackagesToScan(env.getRequiredProperty("web.model"));
+        em.setPackagesToScan("web");
 
-        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        JpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
+        em.setJpaVendorAdapter(jpaVendorAdapter);
         em.setJpaProperties(getHibernateProperties());
         return em;
     }
 
     public Properties getHibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.show.sql", env.getProperty("db.show.sql"));
-        properties.put("hibernate.hbm2dll.auto", env.getProperty("db.hbm2dll2.auto"));
-        properties.put("hibernate.dialect", env.getProperty("db.dialect"));
+        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         return properties;
     }
 

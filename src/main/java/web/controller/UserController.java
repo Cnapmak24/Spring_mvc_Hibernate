@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.UserService;
 
+import java.util.List;
+
 
 @Controller
 public class UserController {
@@ -18,52 +20,37 @@ public class UserController {
         this.userService = userService;
     }
 
-    // Получение списка юзеров
-    @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("users", userService.getAllUser());
-        return "index";
+    @GetMapping("")
+    public String showAllUsers(Model model) {
+        List<User> allUsers = userService.getAllUsers();
+        model.addAttribute("allUsers", allUsers);
+        return "all-users-t";
     }
 
-    // Получение юзера по id
-    @GetMapping("/show")
-    public String show(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "show";
+    @RequestMapping("/addNewUser")
+    public String addNewUser(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "user-info";
     }
 
-    // Добавление юзера Get
-    @GetMapping("/add")
-    public String addUser(Model model) {
-        model.addAttribute("user", new User());
-        return "add";
-    }
 
-    // Добавление юзера Post
-    @PostMapping("/add")
-    public String addUserPage(@ModelAttribute("user") User user) {
-        userService.addUser(user);
+    @PostMapping(value = "/saveUser")
+    public String saveUser(@ModelAttribute("user") User user) {
+        userService.saveUser(user);
         return "redirect:/";
     }
 
-    // Удаление юзера
-    @PostMapping("/delete")
-    public String deleteUser(@RequestParam("id") Long id) {
-        userService.removeUser(id);
-        return "redirect:/";
+    @RequestMapping("/updateInfo")
+    public String updateUser(@RequestParam("userId") Long id, Model model) {
+        User user = userService.getUser(id);
+        model.addAttribute("user", user);
+        return "user-info";
     }
 
-    // Изменение юзера Get
-    @GetMapping(value = "/edit")
-    public String editUser(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "edit";
-    }
-
-    // Изменение юзера Post
-    @PostMapping(value = "/edit")
-    public String editUserPage(@ModelAttribute("user") User user, @RequestParam("id") Long id) {
-        userService.updateUser(id, user);
+    @RequestMapping("deleteUser")
+    public String deleteUser(@RequestParam("userId") Long id) {
+        userService.deleteUser(id);
         return "redirect:/";
     }
 }
